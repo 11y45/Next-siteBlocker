@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+
+html, body { background: #F5F6FA; color: #1F2340; }
+body {
+  font-family: ui-sans-serif, Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .card { @apply rounded-3xl bg-white shadow-soft border border-white; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition outline-none focus-visible:ring-4 focus-visible:ring-lavender-200 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-lavender-500 text-white shadow-soft hover:bg-lavender-600; }
+  .btn-soft { @apply btn bg-lavender-50 text-lavender-600 hover:bg-lavender-100; }
+  .btn-ghost { @apply btn bg-fog-50 text-fog-600 hover:bg-fog-100; }
+  .btn-danger { @apply btn bg-blush-50 text-blush-600 hover:bg-blush-100; }
+  .input { @apply w-full rounded-2xl border border-line bg-fog-50 px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 outline-none transition focus:border-lavender-200 focus:bg-white focus:ring-4 focus:ring-lavender-100; }
+  .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted; }
+}
+
+input[type="range"] { accent-color: #7C6CF0; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #D9DCEC; border-radius: 999px; border: 3px solid #F5F6FA; }
