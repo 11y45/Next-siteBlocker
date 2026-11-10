@@ -77,12 +77,12 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-6" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-ink/30 backdrop-blur-sm" onClick={onClose} />
       <div className="card relative flex max-h-[94vh] w-full max-w-2xl flex-col !rounded-b-none shadow-lift sm:!rounded-3xl">
-        <div className="flex items-center gap-3 border-b border-line px-6 py-4">
+        <div className="flex items-center gap-3 border-b border-line px-4 py-4 sm:px-6">
           <button className="btn-ghost !px-3 !py-2" onClick={onClose} aria-label="Close"><X size={16} /></button>
           <h2 className="flex-1 text-lg font-bold">{editing ? "Edit rule" : "New rule"}</h2>
         </div>
 
-        <div className="space-y-7 overflow-y-auto px-6 py-6">
+        <div className="space-y-7 overflow-y-auto px-4 py-5 sm:px-6 sm:py-6">
           <div>
             <label className="label" htmlFor="rule-name">Rule name</label>
             <input id="rule-name" className="input" placeholder="e.g. Work hours" value={name} maxLength={40} onChange={(e) => setName(e.target.value)} />
@@ -91,7 +91,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
           {/* What to block */}
           <div>
             <p className="label">What to block</p>
-            <div className="rounded-3xl bg-fog-50 p-4">
+            <div className="rounded-3xl bg-fog-50 p-3 sm:p-4">
               <div className="mb-4 grid grid-cols-2 gap-1 rounded-2xl bg-white p-1 shadow-soft">
                 {([["sites", "Websites", Globe], ["categories", "Categories", LayoutGrid]] as const).map(([id, label, Icon]) => (
                   <button key={id} type="button" onClick={() => setTab(id)}
@@ -174,7 +174,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
               <p className="label !mb-0 flex items-center gap-1.5"><Clock size={13} /> Blocking hours</p>
               <label className="flex items-center gap-3 text-sm font-semibold">All day <Toggle checked={allDay} onChange={setAllDay} label="All day" /></label>
             </div>
-            <div className={`grid gap-3 rounded-3xl bg-fog-50 p-4 sm:grid-cols-2 ${allDay ? "opacity-50" : ""}`}>
+            <div className={`grid gap-3 rounded-3xl bg-fog-50 p-3 sm:grid-cols-2 sm:p-4 ${allDay ? "opacity-50" : ""}`}>
               <div><label className="label" htmlFor="rule-start">Starts at</label><input id="rule-start" type="time" className="input !bg-white" value={start} disabled={allDay} onChange={(e) => setStart(e.target.value)} /></div>
               <div><label className="label" htmlFor="rule-end">Ends at</label><input id="rule-end" type="time" className="input !bg-white" value={end} disabled={allDay} onChange={(e) => setEnd(e.target.value)} /></div>
               {isOvernight({ allDay, start, end }) && (
@@ -186,13 +186,13 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
           {/* Days */}
           <div>
             <p className="label flex items-center gap-1.5"><CalendarDays size={13} /> Blocking days</p>
-            <div className="rounded-3xl bg-fog-50 p-4">
-              <div className="mb-4 flex flex-wrap justify-center gap-2">
+            <div className="rounded-3xl bg-fog-50 p-3 sm:p-4">
+              <div className="mb-4 flex justify-center gap-1.5 sm:gap-2">
                 {DAY_ORDER.map((d) => {
                   const on = days.includes(d);
                   return (
                     <button key={d} type="button" aria-pressed={on} onClick={() => toggleDay(d)}
-                      className={`grid h-12 w-12 place-items-center rounded-full text-[11px] font-bold transition ${on ? "bg-lavender-500 text-white shadow-soft" : "bg-white text-muted hover:text-ink"}`}>
+                      className={`grid h-10 w-10 place-items-center rounded-full text-[10px] font-bold transition sm:h-12 sm:w-12 sm:text-[11px] ${on ? "bg-lavender-500 text-white shadow-soft" : "bg-white text-muted hover:text-ink"}`}>
                       {DAY_CAPS[d]}
                     </button>
                   );
@@ -208,7 +208,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-4 py-4 sm:px-6">
           <p className="text-xs font-medium text-muted">
             {targets ? <>Blocks <b className="text-ink">{[sites.length && `${sites.length} site${sites.length > 1 ? "s" : ""}`, cats.length && `${cats.length} categor${cats.length > 1 ? "ies" : "y"}`].filter(Boolean).join(" + ")}</b> · {hoursSummary({ allDay, start, end })} · {daysSummary(days) || "no days"}</> : "Nothing selected yet"}
           </p>

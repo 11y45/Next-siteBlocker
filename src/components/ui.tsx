@@ -21,13 +21,13 @@ export function PageHeader({ title, subtitle, action }: { title: string; subtitl
 }
 
 export function Pill({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${className}`}>{children}</span>;
+  return <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ${className}`}>{children}</span>;
 }
 
 export function StatCard({ label, value, hint, icon, wash }: { label: string; value: ReactNode; hint?: string; icon: ReactNode; wash: string }) {
   return (
-    <div className="card flex items-center gap-4 p-5">
-      <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${wash}`}>{icon}</div>
+    <div className="card flex min-w-0 flex-col items-start gap-3 p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5">
+      <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl sm:h-12 sm:w-12 ${wash}`}>{icon}</div>
       <div className="min-w-0">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
         <p className="truncate text-2xl font-bold text-ink">{value}</p>

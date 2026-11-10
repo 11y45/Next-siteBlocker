@@ -59,7 +59,7 @@ function Blocklist({ s }: { s: ExtState }) {
         >
           <div className="relative flex-1">
             <input
-              className="input" placeholder="Type a name or address — e.g. Instagram, reddit.com"
+              className="input" placeholder="Site name or address"
               value={input} onChange={(e) => setInput(e.target.value)}
               onFocus={() => setFocused(true)} onBlur={() => setTimeout(() => setFocused(false), 150)}
             />
@@ -108,10 +108,10 @@ function Blocklist({ s }: { s: ExtState }) {
         )}
       </Card>
 
-      <div className="mb-4 mt-8 flex items-center justify-between gap-4">
-        <h2 className="text-lg font-bold">Blocked sites <span className="text-muted">({total})</span></h2>
+      <div className="mb-4 mt-8 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="whitespace-nowrap text-lg font-bold">Blocked sites <span className="text-muted">({total})</span></h2>
         {total > 0 && (
-          <div className="relative w-56">
+          <div className="relative w-full sm:w-56">
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
             <input className="input !pl-9" placeholder="Search" value={filter} onChange={(e) => setFilter(e.target.value)} />
           </div>
@@ -129,11 +129,11 @@ function Blocklist({ s }: { s: ExtState }) {
             const sensitive = s.sites[d] === "adult";
             const shown = !sensitive || revealed.has(d);
             return (
-              <div key={d} className="card flex items-center gap-3 !rounded-2xl px-4 py-3">
+              <div key={d} className="card flex min-w-0 items-center gap-3 !rounded-2xl px-4 py-3">
                 {shown
                   ? <Avatar name={d} className={`!h-10 !w-10 !rounded-xl ${cat.tone.chip}`} />
                   : <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${cat.tone.chip}`}><cat.icon size={17} /></div>}
-                <span className={`flex-1 truncate text-sm font-semibold ${shown ? "" : "text-muted"}`}>{shown ? d : "Adult site"}</span>
+                <span className={`min-w-0 flex-1 truncate text-sm font-semibold ${shown ? "" : "text-muted"}`}>{shown ? d : "Adult site"}</span>
                 {sensitive && (
                   <button aria-label={shown ? "Hide name" : "Show name"} title={shown ? "Hide name" : "Show name"} onClick={() => toggle(d)}
                     className="rounded-xl p-2 text-muted transition hover:bg-fog-50 hover:text-ink">

@@ -26,12 +26,13 @@ function Categories({ s }: { s: ExtState }) {
           const visible = !!shown[c.id];
           return (
             <Card key={c.id} className="!p-5">
-              <div className="mb-4 flex items-center gap-3">
+              <div className="mb-4 flex flex-wrap items-center gap-3 sm:flex-nowrap">
                 <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${c.tone.chip}`}><c.icon size={22} /></div>
                 <div className="min-w-0 flex-1">
                   <p className="text-base font-bold">{c.label}</p>
                   <p className="truncate text-xs text-muted">{c.blurb}</p>
                 </div>
+                <div className="flex w-full items-center gap-2 sm:w-auto">
                 <button
                   aria-label={`Schedule ${c.label}`} title="Block only at certain hours or days"
                   onClick={() => setEditor({ name: `${c.label} hours`, categories: [c.id] })}
@@ -49,19 +50,20 @@ function Categories({ s }: { s: ExtState }) {
                 </button>
                 {all ? (
                   <button
-                    className="btn-ghost !py-2" title={s.locked ? "Protection is on — unlock first" : undefined}
+                    className="btn-ghost !py-2 flex-1 sm:flex-none" title={s.locked ? "Protection is on — unlock first" : undefined}
                     onClick={() => act("removeSites", { domains: blocked.map((x) => x.domain) }, { success: `${c.label} unblocked` })}
                   >
                     {s.locked && <Lock size={14} />} Unblock all
                   </button>
                 ) : (
                   <button
-                    className="btn-primary !py-2"
+                    className="btn-primary !py-2 flex-1 sm:flex-none"
                     onClick={() => act("addSites", { sites: sites.map((x) => ({ domain: x.domain, category: c.id })) }, { success: `${c.label} blocked` })}
                   >
                     Block all
                   </button>
                 )}
+                </div>
               </div>
 
               <div className="mb-3 h-2 rounded-full bg-fog-50">

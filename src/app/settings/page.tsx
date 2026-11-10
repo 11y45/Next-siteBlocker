@@ -20,7 +20,7 @@ function Settings({ s }: { s: ExtState }) {
     const blob = new Blob([JSON.stringify({ sites: s.sites }, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "haven-blocklist.json";
+    a.download = "siteblocker-blocklist.json";
     a.click();
     URL.revokeObjectURL(a.href);
   };
@@ -79,7 +79,7 @@ function Settings({ s }: { s: ExtState }) {
             <div className="flex justify-between gap-4"><dt className="text-muted">Linked dashboard</dt><dd className="truncate font-semibold">{s.dashboardUrl ?? "—"}</dd></div>
           </dl>
           <p className="mt-5 rounded-2xl bg-fog-50 p-4 text-xs text-muted">
-            Tip: to block in Incognito, open <code>chrome://extensions</code> → Website Blocker → Details → <b>Allow in Incognito</b>.
+            Tip: to block in Incognito, open <code>chrome://extensions</code> → siteBlocker → Details → <b>Allow in Incognito</b>.
           </p>
         </Card>
       </div>

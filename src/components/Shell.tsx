@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   LayoutDashboard, Timer, ShieldBan, LayoutGrid, CalendarClock, Lock, Settings, Menu, X, Unlock, PlugZap,
 } from "lucide-react";
@@ -32,7 +32,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       <div className="flex items-center gap-3 px-3 py-2">
         <ShieldLogo size={40} />
         <div>
-          <p className="text-base font-bold leading-tight text-ink">Haven</p>
+          <p className="text-base font-bold leading-tight text-ink">siteBlocker</p>
           <p className="text-xs text-muted">Focus &amp; blocking</p>
         </div>
       </div>
@@ -75,8 +75,12 @@ function TitleTimer() {
   const { state } = useExt();
   const now = useNow();
   const s = state?.session;
+  const base = useRef<string | null>(null);
   useEffect(() => {
-    document.title = s ? `${mmss(sessionLeft(s, now))} · ${s.pausedAt ? "Paused" : s.phase === "focus" ? "Focus" : "Break"} — Haven` : "Haven — Focus & blocking";
+    if (base.current === null) base.current = document.title; // the SEO title from the page metadata
+    document.title = s
+      ? `${mmss(sessionLeft(s, now))} · ${s.pausedAt ? "Paused" : s.phase === "focus" ? "Focus" : "Break"} — siteBlocker`
+      : base.current;
   }, [s, now]);
   return null;
 }
@@ -91,7 +95,7 @@ function Frame({ children }: { children: ReactNode }) {
       </aside>
 
       <header className="sticky top-0 z-30 flex items-center justify-between bg-canvas/80 px-4 py-3 backdrop-blur lg:hidden">
-        <div className="flex items-center gap-2 font-bold"><ShieldLogo size={30} /> Haven</div>
+        <div className="flex items-center gap-2 font-bold"><ShieldLogo size={30} /> siteBlocker</div>
         <button aria-label="Menu" onClick={() => setOpen(true)} className="btn-ghost !p-2.5"><Menu size={20} /></button>
       </header>
 

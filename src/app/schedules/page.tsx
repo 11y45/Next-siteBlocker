@@ -32,7 +32,7 @@ function Schedules({ s }: { s: ExtState }) {
 
       <Card className="mb-6 flex flex-wrap items-center gap-4 !p-5">
         <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint-50 text-mint-500"><ShieldBan /></div>
-        <div className="min-w-0 flex-1">
+        <div className="min-w-[12rem] flex-1">
           <p className="font-bold">Your blocklist</p>
           <p className="text-sm text-muted">
             {siteCount} site{siteCount === 1 ? "" : "s"} · {s.settings.blockWhen === "always" ? "blocked all day, every day" : "blocked during focus sessions"}. Rules below add extra blocking on a schedule.
@@ -55,34 +55,39 @@ function Schedules({ s }: { s: ExtState }) {
             const status = !r.enabled ? "off" : r.active ? "active" : "waiting";
             return (
               <Card key={r.id} className={`!p-5 ${r.enabled ? "" : "opacity-70"}`}>
-                <div className="flex flex-wrap items-center gap-4">
+                <div className="flex flex-wrap items-start gap-x-4 gap-y-3 sm:items-center">
                   <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${status === "active" ? "bg-mint-100 text-mint-600" : status === "waiting" ? "bg-lavender-100 text-lavender-600" : "bg-fog-100 text-fog-500"}`}>
                     <CalendarClock size={22} />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="truncate text-base font-bold">{r.name}</p>
+                  <div className="min-w-0 flex-1 basis-40">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <p className="break-words text-base font-bold">{r.name}</p>
                       <Pill className={status === "active" ? "bg-mint-100 text-mint-600" : status === "waiting" ? "bg-lavender-100 text-lavender-600" : "bg-fog-100 text-fog-600"}>
                         <span className={`h-2 w-2 rounded-full ${status === "active" ? "bg-mint-500" : status === "waiting" ? "bg-lavender-500" : "bg-fog-500"}`} />
                         {status === "active" ? "Blocking now" : status === "waiting" ? "Scheduled" : "Off"}
                       </Pill>
                     </div>
                     <p className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
-                      <span className="inline-flex items-center gap-1.5"><Clock size={14} /> {hoursSummary(r)}</span>
-                      <span className="inline-flex items-center gap-1.5"><CalendarClock size={14} /> {daysSummary(r.days)}</span>
+                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap"><Clock size={14} /> {hoursSummary(r)}</span>
+                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap"><CalendarClock size={14} /> {daysSummary(r.days)}</span>
                     </p>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Toggle checked={r.enabled} label={`Turn ${r.enabled ? "off" : "on"} ${r.name}`}
-                      onChange={(v) => { if (!v && locked()) return; act("rule/toggle", { id: r.id, enabled: v }); }} />
-                    <button aria-label="Edit rule" title="Edit" className="ml-2 rounded-xl p-2.5 text-muted transition hover:bg-fog-50 hover:text-ink"
-                      onClick={() => { if (!locked()) setEditor(r); }}>
-                      {s.locked ? <Lock size={16} /> : <Pencil size={16} />}
-                    </button>
-                    <button aria-label="Delete rule" title="Delete" className="rounded-xl p-2.5 text-muted transition hover:bg-blush-50 hover:text-blush-600"
-                      onClick={() => { if (!locked()) setDeleting(r); }}>
-                      {s.locked ? <Lock size={16} /> : <Trash2 size={16} />}
-                    </button>
+                  <div className="flex w-full items-center justify-between border-t border-line pt-3 sm:w-auto sm:justify-end sm:gap-1 sm:border-0 sm:pt-0">
+                    <span className="flex items-center gap-3">
+                      <Toggle checked={r.enabled} label={`Turn ${r.enabled ? "off" : "on"} ${r.name}`}
+                        onChange={(v) => { if (!v && locked()) return; act("rule/toggle", { id: r.id, enabled: v }); }} />
+                      <span className="text-sm font-semibold text-muted sm:hidden">{r.enabled ? "On" : "Off"}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <button aria-label="Edit rule" title="Edit" className="rounded-xl p-2.5 text-muted transition hover:bg-fog-50 hover:text-ink sm:ml-2"
+                        onClick={() => { if (!locked()) setEditor(r); }}>
+                        {s.locked ? <Lock size={16} /> : <Pencil size={16} />}
+                      </button>
+                      <button aria-label="Delete rule" title="Delete" className="rounded-xl p-2.5 text-muted transition hover:bg-blush-50 hover:text-blush-600"
+                        onClick={() => { if (!locked()) setDeleting(r); }}>
+                        {s.locked ? <Lock size={16} /> : <Trash2 size={16} />}
+                      </button>
+                    </span>
                   </div>
                 </div>
 

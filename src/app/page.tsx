@@ -32,7 +32,7 @@ function Overview({ s }: { s: ExtState }) {
     <>
       <PageHeader title={`${greeting()}, welcome back`} subtitle="Here's how your focus and blocking are going today." />
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <StatCard label="Focus today" value={minutesLabel(today.focusMin)} hint={`${today.sessions} session${today.sessions === 1 ? "" : "s"} completed`} icon={<Flame className="text-lavender-500" />} wash="bg-lavender-50" />
         <StatCard label="Blocks today" value={today.blocks} hint="Times you stayed on track" icon={<ShieldCheck className="text-mint-500" />} wash="bg-mint-50" />
         <StatCard label="Sites blocked" value={siteCount} hint={`${byCat.length} categor${byCat.length === 1 ? "y" : "ies"}`} icon={<Layers className="text-skyblue-500" />} wash="bg-skyblue-50" />
