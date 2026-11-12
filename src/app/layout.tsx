@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: [
-    "siteBlocker", "website blocker", "block websites", "site blocker extension", "focus timer", "pomodoro",
+    "siteBlocker", "website blocker", "screen time", "time tracker", "block websites", "site blocker extension", "focus timer", "pomodoro",
     "website scheduler", "distraction blocker", "self control", "productivity",
   ],
   alternates: { canonical: "/" },

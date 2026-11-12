@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { CalendarClock, Layers, LockKeyhole, ShieldBan, Timer, Eye } from "lucide-react";
+import { CalendarClock, Hourglass, Layers, LifeBuoy, LockKeyhole, ShieldBan, Timer, Eye } from "lucide-react";
 import { useExt } from "@/lib/ext";
 import type { ExtState } from "@/lib/types";
 import { ShieldLogo } from "./Logo";
@@ -10,9 +10,11 @@ import { Card } from "./ui";
 const FEATURES = [
   { icon: ShieldBan, title: "Block distracting websites", text: "Add any site, or pick from popular ones. Blocked pages never load." },
   { icon: Layers, title: "Categories", text: "Block social media, news, shopping, gambling or adult sites in one click, with names hidden by default." },
+  { icon: Hourglass, title: "Screen time", text: "See how long you spend on each site and category, by hour, day and week." },
   { icon: CalendarClock, title: "Schedules", text: "Block only on the days and hours you choose, like weekdays from 9:00 to 17:00." },
   { icon: Timer, title: "Focus timer", text: "Set focus time, break time and cycles, with pause and reset." },
   { icon: LockKeyhole, title: "Protection", text: "A passcode held by someone else plus a cooldown, or a time lock, so you can't give in on impulse." },
+  { icon: LifeBuoy, title: "Quick passes", text: "A short look or a 1-minute emergency pass, so a real need never means switching the extension off." },
   { icon: Eye, title: "Private by design", text: "No account and no server. Your data stays inside your browser." },
 ];
 

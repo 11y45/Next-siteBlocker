@@ -55,7 +55,8 @@ export function ExtProvider({ children }: { children: ReactNode }) {
 
   const act = useCallback<Ctx["act"]>(async (type, payload, opts) => {
     const r = await request<ExtState>(type, payload, 6000);
-    if (r.data) setState(r.data);
+    // only ever adopt a real extension state (a stray reply must never replace it)
+    if (r.data && "lock" in r.data) setState(r.data);
     if (r.ok) {
       setStatus("connected");
       if (opts?.success) toast(opts.success, "success");

@@ -1,15 +1,22 @@
 "use client";
 
-import { useRef } from "react";
-import { Download, Upload, Lock, Radio, Clock, PlugZap } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Download, Upload, Lock, Radio, Clock, PlugZap, Hourglass, Trash2 } from "lucide-react";
 import { Connected } from "@/components/Connected";
-import { Card, PageHeader } from "@/components/ui";
+import { Card, ConfirmDialog, PageHeader, Toggle } from "@/components/ui";
+import { request } from "@/lib/bridge";
 import { useExt } from "@/lib/ext";
 import type { CategoryId, ExtState } from "@/lib/types";
 
 function Settings({ s }: { s: ExtState }) {
   const { act, toast } = useExt();
   const file = useRef<HTMLInputElement>(null);
+  const [since, setSince] = useState<number | null>(null);
+  const [confirmClear, setConfirmClear] = useState(false);
+
+  useEffect(() => {
+    request<{ since: number | null }>("getUsage", { days: 1 }).then((r) => { if (r.ok) setSince(r.data.since); });
+  }, [s.tracking]);
 
   const modes = [
     { value: "always" as const, title: "Always on", text: "Blocked sites stay blocked all day, every day.", icon: Radio },
@@ -61,6 +68,24 @@ function Settings({ s }: { s: ExtState }) {
           </div>
         </Card>
 
+        <Card className="lg:col-span-2">
+          <div className="flex flex-wrap items-start gap-4">
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-lavender-50 text-lavender-500"><Hourglass /></div>
+            <div className="min-w-[12rem] flex-1">
+              <h2 className="text-lg font-bold">Time tracking</h2>
+              <p className="mt-1 text-sm text-muted">
+                Records how long you spend on each website so you can see it on the Screen time page. It counts the tab in front while you&apos;re active or it plays audio.
+                Private windows aren&apos;t tracked, nothing leaves your browser, and data older than 90 days is deleted.
+              </p>
+              {since && <p className="mt-2 text-xs font-medium text-muted">Tracking since {new Date(since).toLocaleDateString("en", { day: "numeric", month: "long", year: "numeric" })}</p>}
+            </div>
+            <Toggle checked={s.tracking} label="Track time on websites" onChange={(v) => act("setTracking", { enabled: v }, { success: v ? "Time tracking is on" : "Time tracking is off" })} />
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3 border-t border-line pt-5">
+            <button className="btn-danger" onClick={() => setConfirmClear(true)}><Trash2 size={16} /> Clear tracked time</button>
+          </div>
+        </Card>
+
         <Card>
           <h2 className="mb-1 text-lg font-bold">Your data</h2>
           <p className="mb-5 text-sm text-muted">Everything lives inside your browser&apos;s extension storage. Back it up or move it to another browser. Importing only adds sites.</p>
@@ -83,6 +108,13 @@ function Settings({ s }: { s: ExtState }) {
           </p>
         </Card>
       </div>
+      <ConfirmDialog
+        open={confirmClear} icon={Trash2} title="Clear all tracked time?"
+        text="Your screen time history will be deleted from this browser. This can't be undone."
+        confirmLabel="Clear tracked time" cancelLabel="Keep my data"
+        onCancel={() => setConfirmClear(false)}
+        onConfirm={() => { setConfirmClear(false); act("clearUsage", undefined, { success: "Tracked time cleared" }); setSince(null); }}
+      />
     </>
   );
 }

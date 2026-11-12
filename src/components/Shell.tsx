@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
-  LayoutDashboard, Timer, ShieldBan, LayoutGrid, CalendarClock, Lock, Settings, Menu, X, Unlock, PlugZap,
+  LayoutDashboard, Hourglass, Timer, ShieldBan, LayoutGrid, CalendarClock, Lock, Settings, Menu, X, Unlock, PlugZap,
 } from "lucide-react";
 import { ExtProvider, useExt, useNow } from "@/lib/ext";
 import { mmss, sessionLeft } from "@/lib/format";
@@ -13,6 +13,7 @@ import { Toasts } from "./ui";
 
 const NAV = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
+  { href: "/usage", label: "Screen time", icon: Hourglass },
   { href: "/focus", label: "Focus timer", icon: Timer },
   { href: "/blocklist", label: "Blocklist", icon: ShieldBan },
   { href: "/categories", label: "Categories", icon: LayoutGrid },

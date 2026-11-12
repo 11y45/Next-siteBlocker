@@ -24,6 +24,8 @@ const config: Config = {
         inset: "inset 0 1px 0 rgba(255,255,255,0.8)",
       },
       borderRadius: { "4xl": "2rem" },
+      keyframes: { "fade-in": { from: { opacity: "0" }, to: { opacity: "1" } } },
+      animation: { "fade-late": "fade-in 0.35s ease-out 0.7s both" },
     },
   },
   plugins: [],

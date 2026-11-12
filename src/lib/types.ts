@@ -54,6 +54,7 @@ export interface ExtState {
   blockingActive: boolean;
   stats: { days: Record<string, DayStats>; sites: Record<string, number> };
   dashboardUrl: string | null;
+  tracking: boolean;
   addCounts: Record<string, number>;
   rules: Rule[];
   passes: Record<string, number>;

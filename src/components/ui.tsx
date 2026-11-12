@@ -24,14 +24,14 @@ export function Pill({ children, className = "" }: { children: ReactNode; classN
   return <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ${className}`}>{children}</span>;
 }
 
-export function StatCard({ label, value, hint, icon, wash }: { label: string; value: ReactNode; hint?: string; icon: ReactNode; wash: string }) {
+export function StatCard({ label, value, hint, icon, wash, compact }: { label: string; value: ReactNode; hint?: string; icon: ReactNode; wash: string; compact?: boolean }) {
   return (
     <div className="card flex min-w-0 flex-col items-start gap-3 p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5">
       <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl sm:h-12 sm:w-12 ${wash}`}>{icon}</div>
       <div className="min-w-0">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-        <p className="truncate text-2xl font-bold text-ink">{value}</p>
-        {hint && <p className="truncate text-xs text-muted">{hint}</p>}
+        <p className={`truncate font-bold text-ink ${compact ? "text-lg sm:text-xl" : "text-2xl"}`} title={typeof value === "string" ? value : undefined}>{value}</p>
+        {hint && <p className="text-xs leading-snug text-muted">{hint}</p>}
       </div>
     </div>
   );
