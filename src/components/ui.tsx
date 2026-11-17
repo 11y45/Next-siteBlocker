@@ -30,7 +30,7 @@ export function StatCard({ label, value, hint, icon, wash, compact }: { label: s
       <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl sm:h-12 sm:w-12 ${wash}`}>{icon}</div>
       <div className="min-w-0">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-        <p className={`truncate font-bold text-ink ${compact ? "text-lg sm:text-xl" : "text-2xl"}`} title={typeof value === "string" ? value : undefined}>{value}</p>
+        <p className={`truncate font-bold text-ink ${compact ? "text-base" : "text-2xl"}`} title={typeof value === "string" ? value : undefined}>{value}</p>
         {hint && <p className="text-xs leading-snug text-muted">{hint}</p>}
       </div>
     </div>
@@ -57,7 +57,7 @@ export function Segmented<T extends string | number>({
           disabled={disabled}
           onClick={() => onChange(o.value)}
           className={`rounded-xl px-3.5 py-2 text-sm font-semibold transition disabled:opacity-50 ${
-            o.value === value ? "bg-white text-lavender-600 shadow-soft" : "text-muted hover:text-ink"
+            o.value === value ? "bg-surface text-lavender-600 shadow-soft" : "text-muted hover:text-ink"
           }`}
         >
           {o.label}
@@ -104,7 +104,7 @@ export function Toasts() {
         <div
           key={t.id}
           className={`pointer-events-auto flex items-start gap-3 rounded-2xl p-4 text-sm font-medium shadow-lift ${
-            t.kind === "error" ? "bg-blush-50 text-blush-600" : t.kind === "success" ? "bg-mint-50 text-mint-600" : "bg-white text-ink"
+            t.kind === "error" ? "bg-blush-50 text-blush-600" : t.kind === "success" ? "bg-mint-50 text-mint-600" : "bg-surface text-ink"
           }`}
         >
           <span className="mt-0.5">{t.kind === "error" ? <X size={16} /> : t.kind === "success" ? <Check size={16} /> : <Info size={16} />}</span>
@@ -124,7 +124,7 @@ export function ConfirmDialog({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 grid place-items-center p-4" role="dialog" aria-modal="true">
-      <div className="absolute inset-0 bg-ink/30 backdrop-blur-sm" onClick={onCancel} />
+      <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" onClick={onCancel} />
       <div className="card relative w-full max-w-sm p-7 text-center shadow-lift">
         <div className={`mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl ${tone === "danger" ? "bg-blush-100 text-blush-600" : "bg-lavender-100 text-lavender-600"}`}>
           <Icon size={24} />

@@ -2,25 +2,230 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
+/* Theme tokens: every color in the app is one of these, so switching the .dark class on <html> re-themes everything. */
+@layer base {
+:root {
+  /* surfaces + text */
+  --c-canvas: 245 246 250;
+  --c-surface: 255 255 255;
+  --c-edge: 255 255 255;
+  --c-ink: 31 35 64;
+  --c-muted: 107 112 148;
+  --c-line: 236 238 246;
+  --c-tooltip: 31 35 64;
+  --c-tooltip-fg: 255 255 255;
+  --c-scroll: 217 220 236;
+  --c-shadow: 31 35 64;
+  --shadow-soft-a: 0.06;
+  --shadow-lift-a: 0.10;
+  --accent: 124 108 240;
+  /* lavender */
+  --c-lavender-50: 243 241 255;
+  --c-lavender-100: 232 228 255;
+  --c-lavender-200: 211 204 255;
+  --c-lavender-500: 124 108 240;
+  --c-lavender-600: 104 87 224;
+  /* mint */
+  --c-mint-50: 234 250 243;
+  --c-mint-100: 213 245 230;
+  --c-mint-500: 47 166 123;
+  --c-mint-600: 34 138 102;
+  /* peach */
+  --c-peach-50: 255 243 236;
+  --c-peach-100: 255 229 214;
+  --c-peach-500: 232 112 58;
+  --c-peach-600: 204 90 40;
+  /* skyblue */
+  --c-skyblue-50: 238 246 255;
+  --c-skyblue-100: 220 235 255;
+  --c-skyblue-500: 59 139 235;
+  --c-skyblue-600: 42 116 208;
+  /* blush */
+  --c-blush-50: 255 240 244;
+  --c-blush-100: 255 224 234;
+  --c-blush-500: 217 82 122;
+  --c-blush-600: 191 60 99;
+  /* butter */
+  --c-butter-50: 255 250 232;
+  --c-butter-100: 255 240 191;
+  --c-butter-500: 181 138 0;
+  --c-butter-600: 148 111 0;
+  /* fog */
+  --c-fog-50: 244 245 249;
+  --c-fog-100: 231 233 242;
+  --c-fog-500: 107 112 148;
+  --c-fog-600: 85 90 122;
+  /* ember */
+  --c-ember-50: 251 237 235;
+  --c-ember-100: 247 219 216;
+  --c-ember-500: 217 74 58;
+  --c-ember-600: 178 61 48;
+  /* moss */
+  --c-moss-50: 240 246 235;
+  --c-moss-100: 225 238 216;
+  --c-moss-500: 107 168 58;
+  --c-moss-600: 88 138 48;
+  /* jade */
+  --c-jade-50: 231 246 243;
+  --c-jade-100: 208 237 232;
+  --c-jade-500: 18 163 138;
+  --c-jade-600: 15 134 113;
+  /* lagoon */
+  --c-lagoon-50: 232 246 249;
+  --c-lagoon-100: 210 237 244;
+  --c-lagoon-500: 30 165 199;
+  --c-lagoon-600: 25 135 163;
+  /* iris */
+  --c-iris-50: 237 239 252;
+  --c-iris-100: 220 223 249;
+  --c-iris-500: 79 95 224;
+  --c-iris-600: 65 78 184;
+  /* plum */
+  --c-plum-50: 247 239 251;
+  --c-plum-100: 239 222 246;
+  --c-plum-500: 176 92 211;
+  --c-plum-600: 144 75 173;
+  /* petal */
+  --c-petal-50: 252 238 245;
+  --c-petal-100: 249 222 235;
+  --c-petal-500: 224 88 155;
+  --c-petal-600: 184 72 127;
+  /* sand */
+  --c-sand-50: 246 243 239;
+  --c-sand-100: 238 231 222;
+  --c-sand-500: 169 137 92;
+  --c-sand-600: 139 112 75;
+  /* pine */
+  --c-pine-50: 234 243 240;
+  --c-pine-100: 213 232 224;
+  --c-pine-500: 46 139 100;
+  --c-pine-600: 38 114 82;
+}
 
-html, body { background: #F5F6FA; color: #1F2340; }
+.dark {
+  /* surfaces + text */
+  --c-canvas: 15 17 32;
+  --c-surface: 23 26 46;
+  --c-edge: 38 42 71;
+  --c-ink: 233 236 250;
+  --c-muted: 154 161 200;
+  --c-line: 42 47 77;
+  --c-tooltip: 44 50 84;
+  --c-tooltip-fg: 242 244 255;
+  --c-scroll: 58 64 104;
+  --c-shadow: 0 0 0;
+  --shadow-soft-a: 0.45;
+  --shadow-lift-a: 0.6;
+  --accent: 124 108 240;
+  /* lavender */
+  --c-lavender-50: 34 31 74;
+  --c-lavender-100: 49 43 104;
+  --c-lavender-200: 74 65 150;
+  --c-lavender-500: 124 108 240;
+  --c-lavender-600: 179 169 255;
+  /* mint */
+  --c-mint-50: 20 48 42;
+  --c-mint-100: 27 64 54;
+  --c-mint-500: 47 166 123;
+  --c-mint-600: 110 215 177;
+  /* peach */
+  --c-peach-50: 58 37 25;
+  --c-peach-100: 77 48 32;
+  --c-peach-500: 232 112 58;
+  --c-peach-600: 255 168 128;
+  /* skyblue */
+  --c-skyblue-50: 20 40 63;
+  --c-skyblue-100: 28 57 86;
+  --c-skyblue-500: 59 139 235;
+  --c-skyblue-600: 128 187 255;
+  /* blush */
+  --c-blush-50: 58 29 42;
+  --c-blush-100: 77 37 54;
+  --c-blush-500: 217 82 122;
+  --c-blush-600: 255 143 174;
+  /* butter */
+  --c-butter-50: 53 45 18;
+  --c-butter-100: 70 59 22;
+  --c-butter-500: 224 176 32;
+  --c-butter-600: 242 201 76;
+  /* fog */
+  --c-fog-50: 31 35 61;
+  --c-fog-100: 42 47 77;
+  --c-fog-500: 154 161 200;
+  --c-fog-600: 196 201 230;
+  /* ember */
+  --c-ember-50: 50 33 48;
+  --c-ember-100: 73 38 49;
+  --c-ember-500: 220 88 74;
+  --c-ember-600: 236 164 156;
+  /* moss */
+  --c-moss-50: 35 46 48;
+  --c-moss-100: 45 63 49;
+  --c-moss-500: 119 175 74;
+  --c-moss-600: 181 212 156;
+  /* jade */
+  --c-jade-50: 22 45 59;
+  --c-jade-100: 22 62 70;
+  --c-jade-500: 37 170 147;
+  --c-jade-600: 136 209 196;
+  /* lagoon */
+  --c-lagoon-50: 24 45 67;
+  --c-lagoon-100: 25 62 86;
+  --c-lagoon-500: 48 172 203;
+  --c-lagoon-600: 142 210 227;
+  /* iris */
+  --c-iris-50: 31 36 71;
+  --c-iris-100: 38 44 92;
+  --c-iris-500: 93 108 226;
+  --c-iris-600: 167 175 240;
+  /* plum */
+  --c-plum-50: 44 35 69;
+  --c-plum-100: 63 43 89;
+  --c-plum-500: 182 105 215;
+  --c-plum-600: 216 174 233;
+  /* petal */
+  --c-petal-50: 51 35 61;
+  --c-petal-100: 75 42 74;
+  --c-petal-500: 226 101 163;
+  --c-petal-600: 240 172 205;
+  /* sand */
+  --c-sand-50: 43 42 52;
+  --c-sand-100: 61 55 58;
+  --c-sand-500: 176 146 105;
+  --c-sand-600: 212 196 174;
+  /* pine */
+  --c-pine-50: 26 42 54;
+  --c-pine-100: 29 55 60;
+  --c-pine-500: 63 148 112;
+  --c-pine-600: 150 197 178;
+}
+
+}
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+
+html, body { background: rgb(var(--c-canvas)); color: rgb(var(--c-ink)); }
 body {
   font-family: ui-sans-serif, Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 @layer components {
-  .card { @apply rounded-3xl bg-white shadow-soft border border-white; }
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition outline-none focus-visible:ring-4 focus-visible:ring-lavender-200 disabled:cursor-not-allowed disabled:opacity-50; }
-  .btn-primary { @apply btn bg-lavender-500 text-white shadow-soft hover:bg-lavender-600; }
+  .card { @apply rounded-3xl bg-surface shadow-soft border border-edge; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition outline-none focus-visible:ring-4 focus-visible:ring-lavender-200/60 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-lavender-500 text-white shadow-soft hover:brightness-95; }
   .btn-soft { @apply btn bg-lavender-50 text-lavender-600 hover:bg-lavender-100; }
   .btn-ghost { @apply btn bg-fog-50 text-fog-600 hover:bg-fog-100; }
   .btn-danger { @apply btn bg-blush-50 text-blush-600 hover:bg-blush-100; }
-  .input { @apply w-full rounded-2xl border border-line bg-fog-50 px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 outline-none transition focus:border-lavender-200 focus:bg-white focus:ring-4 focus:ring-lavender-100; }
+  .input { @apply w-full rounded-2xl border border-line bg-fog-50 px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 outline-none transition focus:border-lavender-200 focus:bg-surface focus:ring-4 focus:ring-lavender-100; }
   .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted; }
 }
 
-input[type="range"] { accent-color: #7C6CF0; }
+input[type="range"] { accent-color: rgb(var(--accent)); }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: #D9DCEC; border-radius: 999px; border: 3px solid #F5F6FA; }
+::-webkit-scrollbar-thumb { background: rgb(var(--c-scroll)); border-radius: 999px; border: 3px solid rgb(var(--c-canvas)); }
+
+/* swipeable pages (the chart carousel) never show a scrollbar */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

@@ -165,7 +165,7 @@ function TimeLocked({ s }: { s: ExtState }) {
   const { until = 0, createdAt = now } = s.lock;
   return (
     <>
-      <Card className="bg-gradient-to-br from-lavender-50 to-white">
+      <Card className="bg-gradient-to-br from-lavender-50 to-surface">
         <div className="flex items-center gap-4">
           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-lavender-100 text-lavender-600"><Lock /></div>
           <div className="flex-1"><p className="text-lg font-bold">Time lock is active</p><p className="text-sm text-muted">Ends {new Date(until).toLocaleString()}</p></div>
@@ -189,7 +189,7 @@ function PasscodeLocked({ s }: { s: ExtState }) {
 
   if (!l.locked) {
     return (
-      <Card className="bg-gradient-to-br from-mint-50 to-white">
+      <Card className="bg-gradient-to-br from-mint-50 to-surface">
         <div className="flex items-center gap-4">
           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-mint-100 text-mint-600"><Unlock /></div>
           <div className="flex-1"><p className="text-lg font-bold">Temporarily unlocked</p><p className="text-sm text-muted">Re-locks automatically in <b className="tabular-nums text-ink">{mmss((l.unlockedUntil ?? now) - now)}</b></p></div>
@@ -203,13 +203,13 @@ function PasscodeLocked({ s }: { s: ExtState }) {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-lavender-50 to-white">
+    <Card className="bg-gradient-to-br from-lavender-50 to-surface">
       <div className="flex items-center gap-4">
         <div className="grid h-14 w-14 place-items-center rounded-2xl bg-lavender-100 text-lavender-600"><Lock /></div>
         <div className="flex-1"><p className="text-lg font-bold">Protection is on</p><p className="text-sm text-muted">Passcode lock · {l.cooldownMin} min cooldown</p></div>
       </div>
 
-      <div className="mt-6 rounded-2xl bg-white p-5 shadow-soft">
+      <div className="mt-6 rounded-2xl bg-surface p-5 shadow-soft">
         {lockedOut ? (
           <div className="text-sm"><b className="text-blush-600">Too many wrong attempts.</b> Try again in <b className="tabular-nums">{mmss(l.lockoutUntil! - now)}</b>.</div>
         ) : !requestLive ? (

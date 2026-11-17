@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Download, Upload, Lock, Radio, Clock, PlugZap, Hourglass, Trash2 } from "lucide-react";
+import { Download, Upload, Lock, Radio, Clock, PlugZap, Hourglass, Trash2, Volume2, Play } from "lucide-react";
 import { Connected } from "@/components/Connected";
-import { Card, ConfirmDialog, PageHeader, Toggle } from "@/components/ui";
+import { Card, ConfirmDialog, PageHeader, Stepper, Toggle } from "@/components/ui";
 import { request } from "@/lib/bridge";
 import { useExt } from "@/lib/ext";
 import type { CategoryId, ExtState } from "@/lib/types";
@@ -13,6 +13,14 @@ function Settings({ s }: { s: ExtState }) {
   const file = useRef<HTMLInputElement>(null);
   const [since, setSince] = useState<number | null>(null);
   const [confirmClear, setConfirmClear] = useState(false);
+  const [volume, setVolume] = useState(Math.round(s.sound.volume * 100));
+
+  // save the volume a moment after the slider stops moving (not on every pixel of the drag)
+  useEffect(() => {
+    if (volume === Math.round(s.sound.volume * 100)) return;
+    const t = setTimeout(() => act("setSound", { volume: volume / 100 }, { silent: true }), 350);
+    return () => clearTimeout(t);
+  }, [volume]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     request<{ since: number | null }>("getUsage", { days: 1 }).then((r) => { if (r.ok) setSince(r.data.since); });
@@ -60,11 +68,35 @@ function Settings({ s }: { s: ExtState }) {
                   key={m.value} onClick={() => !on && act("setSettings", { blockWhen: m.value }, { success: "Setting saved" })}
                   className={`flex items-start gap-4 rounded-2xl p-5 text-left transition ${on ? "bg-lavender-50 ring-2 ring-lavender-200" : "bg-fog-50 hover:bg-fog-100"}`}
                 >
-                  <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${on ? "bg-lavender-500 text-white" : "bg-white text-muted"}`}><m.icon size={18} /></div>
+                  <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${on ? "bg-lavender-500 text-white" : "bg-surface text-muted"}`}><m.icon size={18} /></div>
                   <div className="flex-1"><p className="flex items-center gap-2 font-bold">{m.title}{!on && s.locked && m.value === "focus-only" && <Lock size={13} className="text-muted" />}</p><p className="text-sm text-muted">{m.text}</p></div>
                 </button>
               );
             })}
+          </div>
+        </Card>
+
+        <Card className="lg:col-span-2">
+          <div className="flex flex-wrap items-start gap-4">
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-lavender-50 text-lavender-500"><Volume2 /></div>
+            <div className="min-w-[12rem] flex-1">
+              <h2 className="text-lg font-bold">Focus sounds</h2>
+              <p className="mt-1 text-sm text-muted">
+                A short chime when a session or a break starts or ends, so you can hear it without looking. It plays from the extension, even when no siteBlocker tab is open.
+              </p>
+            </div>
+            <Toggle checked={s.sound.enabled} label="Play focus sounds" onChange={(v) => act("setSound", { enabled: v }, { success: v ? "Focus sounds are on" : "Focus sounds are off" })} />
+          </div>
+          <div className={`mt-6 grid gap-6 lg:grid-cols-2 ${s.sound.enabled ? "" : "pointer-events-none opacity-50"}`} aria-disabled={!s.sound.enabled}>
+            <Stepper label="Volume" unit="%" min={10} max={100} step={5} value={volume} onChange={setVolume} />
+            <div>
+              <p className="label">Preview</p>
+              <div className="flex flex-wrap gap-2">
+                {([["session-start", "Session starts"], ["break-start", "Break starts"], ["focus-start", "Back to focus"], ["session-done", "Session complete"]] as const).map(([id, label]) => (
+                  <button key={id} className="btn-ghost !py-2" onClick={() => act("playSound", { sound: id }, { silent: true })}><Play size={14} /> {label}</button>
+                ))}
+              </div>
+            </div>
           </div>
         </Card>
 
@@ -75,7 +107,7 @@ function Settings({ s }: { s: ExtState }) {
               <h2 className="text-lg font-bold">Time tracking</h2>
               <p className="mt-1 text-sm text-muted">
                 Records how long you spend on each website so you can see it on the Screen time page. It counts the tab in front while you&apos;re active or it plays audio.
-                Private windows aren&apos;t tracked, nothing leaves your browser, and data older than 90 days is deleted.
+                Private windows aren&apos;t tracked and nothing leaves your browser. Your history is kept until you clear it.
               </p>
               {since && <p className="mt-2 text-xs font-medium text-muted">Tracking since {new Date(since).toLocaleDateString("en", { day: "numeric", month: "long", year: "numeric" })}</p>}
             </div>

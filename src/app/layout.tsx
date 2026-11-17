@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Shell from "@/components/Shell";
+import { THEME_INIT_SCRIPT } from "@/components/ThemeToggle";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -18,7 +19,12 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
 };
 
-export const viewport: Viewport = { themeColor: "#F5F6FA" };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F5F6FA" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F1120" },
+  ],
+};
 
 // Structured data so search engines understand what siteBlocker is.
 const jsonLd = {
@@ -33,7 +39,10 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Shell>{children}</Shell>

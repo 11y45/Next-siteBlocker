@@ -9,6 +9,11 @@ import { useExt } from "@/lib/ext";
 import { CATALOG, CATEGORIES } from "@/lib/catalog";
 import type { CategoryId, ExtState, Rule } from "@/lib/types";
 
+const GROUPS = [
+  { id: "distraction", title: "Distractions", text: "The kinds of sites that tend to eat your time." },
+  { id: "tools", title: "Everyday tools", text: "Work, learning and utilities. Block them only if you mean to, or just see where your time goes." },
+] as const;
+
 function Categories({ s }: { s: ExtState }) {
   const { act } = useExt();
   const [shown, setShown] = useState<Partial<Record<CategoryId, boolean>>>({}); // names are hidden by default
@@ -18,8 +23,14 @@ function Categories({ s }: { s: ExtState }) {
     <>
       <PageHeader title="Categories" subtitle="Block a whole group in one click. Site names stay hidden — tap the eye on a category if you want to pick sites one by one." />
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        {CATEGORIES.filter((c) => c.id !== "other").map((c) => {
+      {GROUPS.map((g) => (
+        <section key={g.id} className="mb-10">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold">{g.title}</h2>
+            <p className="text-sm text-muted">{g.text}</p>
+          </div>
+          <div className="grid gap-6 xl:grid-cols-2">
+        {CATEGORIES.filter((c) => c.group === g.id).map((c) => {
           const sites = CATALOG.filter((x) => x.category === c.id);
           const blocked = sites.filter((x) => s.sites[x.domain]);
           const all = blocked.length === sites.length;
@@ -97,7 +108,10 @@ function Categories({ s }: { s: ExtState }) {
             </Card>
           );
         })}
-      </div>
+          </div>
+        </section>
+      ))}
+
       {editor && <RuleEditor key={`cat-${editor.categories?.[0]}`} initial={editor} onClose={() => setEditor(null)} />}
     </>
   );

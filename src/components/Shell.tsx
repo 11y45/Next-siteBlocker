@@ -9,6 +9,7 @@ import {
 import { ExtProvider, useExt, useNow } from "@/lib/ext";
 import { mmss, sessionLeft } from "@/lib/format";
 import { ShieldLogo } from "./Logo";
+import { ThemeButton, ThemeSwitch } from "./ThemeToggle";
 import { Toasts } from "./ui";
 
 const NAV = [
@@ -62,6 +63,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
             <p className="text-xs opacity-80">Cycle {s.cycle} of {s.cycles}</p>
           </div>
         )}
+        <ThemeSwitch />
         <div className="flex items-center gap-3 rounded-2xl bg-fog-50 p-4 text-xs font-semibold text-muted">
           {status === "connected" ? <span className="h-2.5 w-2.5 rounded-full bg-mint-500" /> : <PlugZap size={14} />}
           <span className="flex-1">{status === "connected" ? "Extension connected" : status === "checking" ? "Connecting…" : "Extension not detected"}</span>
@@ -97,12 +99,12 @@ function Frame({ children }: { children: ReactNode }) {
 
       <header className="sticky top-0 z-30 flex items-center justify-between bg-canvas/80 px-4 py-3 backdrop-blur lg:hidden">
         <div className="flex items-center gap-2 font-bold"><ShieldLogo size={30} /> siteBlocker</div>
-        <button aria-label="Menu" onClick={() => setOpen(true)} className="btn-ghost !p-2.5"><Menu size={20} /></button>
+        <div className="flex items-center gap-2"><ThemeButton /><button aria-label="Menu" onClick={() => setOpen(true)} className="btn-ghost !p-2.5"><Menu size={20} /></button></div>
       </header>
 
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <div className="absolute inset-0 bg-ink/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <div className="absolute inset-y-0 left-0 w-72 p-3">
             <div className="card relative h-full p-4">
               <button aria-label="Close" onClick={() => setOpen(false)} className="absolute right-3 top-3 btn-ghost !p-2"><X size={16} /></button>

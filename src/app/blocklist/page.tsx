@@ -64,7 +64,7 @@ function Blocklist({ s }: { s: ExtState }) {
               onFocus={() => setFocused(true)} onBlur={() => setTimeout(() => setFocused(false), 150)}
             />
             {focused && suggestions.length > 0 && (
-              <ul className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-line bg-white p-1.5 shadow-lift">
+              <ul className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-line bg-surface p-1.5 shadow-lift">
                 {suggestions.map((x) => {
                   const k = CATEGORY_BY_ID[x.category];
                   return (
@@ -92,12 +92,12 @@ function Blocklist({ s }: { s: ExtState }) {
                 return (
                   <button
                     key={x.domain} onClick={() => add([x.domain])} title={`Block ${x.domain}`}
-                    className="group relative flex flex-col items-center gap-2.5 rounded-2xl bg-fog-50 px-3 py-4 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-lift"
+                    className="group relative flex flex-col items-center gap-2.5 rounded-2xl bg-fog-50 px-3 py-4 transition hover:-translate-y-0.5 hover:bg-surface hover:shadow-lift"
                   >
                     {x.personal && <span className="absolute right-2 top-2 rounded-full bg-lavender-100 px-2 py-0.5 text-[10px] font-bold text-lavender-600">Yours</span>}
                     <Avatar name={x.name} className={`!h-11 !w-11 !rounded-2xl !text-base ${k.tone.chip}`} />
                     <span className="text-sm font-semibold text-ink">{x.name}</span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-lavender-600 shadow-soft group-hover:bg-lavender-500 group-hover:text-white">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-surface px-2.5 py-1 text-xs font-semibold text-lavender-600 shadow-soft group-hover:bg-lavender-500 group-hover:text-white">
                       <Plus size={12} /> Block
                     </span>
                   </button>

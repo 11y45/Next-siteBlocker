@@ -75,7 +75,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-6" role="dialog" aria-modal="true">
-      <div className="absolute inset-0 bg-ink/30 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" onClick={onClose} />
       <div className="card relative flex max-h-[94vh] w-full max-w-2xl flex-col !rounded-b-none shadow-lift sm:!rounded-3xl">
         <div className="flex items-center gap-3 border-b border-line px-4 py-4 sm:px-6">
           <button className="btn-ghost !px-3 !py-2" onClick={onClose} aria-label="Close"><X size={16} /></button>
@@ -92,7 +92,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
           <div>
             <p className="label">What to block</p>
             <div className="rounded-3xl bg-fog-50 p-3 sm:p-4">
-              <div className="mb-4 grid grid-cols-2 gap-1 rounded-2xl bg-white p-1 shadow-soft">
+              <div className="mb-4 grid grid-cols-2 gap-1 rounded-2xl bg-surface p-1 shadow-soft">
                 {([["sites", "Websites", Globe], ["categories", "Categories", LayoutGrid]] as const).map(([id, label, Icon]) => (
                   <button key={id} type="button" onClick={() => setTab(id)}
                     className={`flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition ${tab === id ? "bg-lavender-50 text-lavender-600" : "text-muted hover:text-ink"}`}>
@@ -106,10 +106,10 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
               {tab === "sites" ? (
                 <div className="space-y-4">
                   <form className="relative" onSubmit={(e) => { e.preventDefault(); addSites(input.split(/[\s,]+/).filter(Boolean)); }}>
-                    <input className="input !bg-white" placeholder="Search a website or paste an address" value={input}
+                    <input className="input !bg-surface" placeholder="Search a website or paste an address" value={input}
                       onChange={(e) => setInput(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setTimeout(() => setFocused(false), 150)} />
                     {focused && suggestions.length > 0 && (
-                      <ul className="absolute left-0 right-0 top-full z-10 mt-2 overflow-hidden rounded-2xl border border-line bg-white p-1.5 shadow-lift">
+                      <ul className="absolute left-0 right-0 top-full z-10 mt-2 overflow-hidden rounded-2xl border border-line bg-surface p-1.5 shadow-lift">
                         {suggestions.map((x) => (
                           <li key={x.domain}>
                             <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => addSites([x.domain])}
@@ -129,7 +129,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
                       <div className="flex flex-wrap justify-center gap-2">
                         {quick.map((x) => (
                           <button key={x.domain} type="button" onClick={() => addSites([x.domain])}
-                            className="inline-flex items-center gap-2 rounded-full bg-white py-1.5 pl-1.5 pr-3 text-sm font-semibold shadow-soft transition hover:-translate-y-0.5">
+                            className="inline-flex items-center gap-2 rounded-full bg-surface py-1.5 pl-1.5 pr-3 text-sm font-semibold shadow-soft transition hover:-translate-y-0.5">
                             <Avatar name={x.name} className={`!h-7 !w-7 !rounded-full !text-xs ${CATEGORY_BY_ID[x.category].tone.chip}`} /> {x.name}
                             <Plus size={14} className="text-lavender-500" />
                           </button>
@@ -156,7 +156,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
                     const n = CATALOG.filter((x) => x.category === c.id).length;
                     return (
                       <button key={c.id} type="button" onClick={() => toggleCat(c.id)}
-                        className={`flex items-center gap-3 rounded-2xl p-3 text-left transition ${on ? `bg-white ring-2 ${c.tone.ring} shadow-soft` : "bg-white/70 hover:bg-white"}`}>
+                        className={`flex items-center gap-3 rounded-2xl p-3 text-left transition ${on ? `bg-surface ring-2 ${c.tone.ring} shadow-soft` : "bg-surface/70 hover:bg-surface"}`}>
                         <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${c.tone.chip}`}><c.icon size={18} /></span>
                         <span className="min-w-0 flex-1"><span className="block text-sm font-bold">{c.label}</span><span className="block text-xs text-muted">{n} sites</span></span>
                         {on && <span className="grid h-6 w-6 place-items-center rounded-full bg-lavender-500 text-white"><Check size={13} /></span>}
@@ -175,8 +175,8 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
               <label className="flex items-center gap-3 text-sm font-semibold">All day <Toggle checked={allDay} onChange={setAllDay} label="All day" /></label>
             </div>
             <div className={`grid gap-3 rounded-3xl bg-fog-50 p-3 sm:grid-cols-2 sm:p-4 ${allDay ? "opacity-50" : ""}`}>
-              <div><label className="label" htmlFor="rule-start">Starts at</label><input id="rule-start" type="time" className="input !bg-white" value={start} disabled={allDay} onChange={(e) => setStart(e.target.value)} /></div>
-              <div><label className="label" htmlFor="rule-end">Ends at</label><input id="rule-end" type="time" className="input !bg-white" value={end} disabled={allDay} onChange={(e) => setEnd(e.target.value)} /></div>
+              <div><label className="label" htmlFor="rule-start">Starts at</label><input id="rule-start" type="time" className="input !bg-surface" value={start} disabled={allDay} onChange={(e) => setStart(e.target.value)} /></div>
+              <div><label className="label" htmlFor="rule-end">Ends at</label><input id="rule-end" type="time" className="input !bg-surface" value={end} disabled={allDay} onChange={(e) => setEnd(e.target.value)} /></div>
               {isOvernight({ allDay, start, end }) && (
                 <p className="flex items-center gap-2 text-xs font-medium text-lavender-600 sm:col-span-2"><Moon size={14} /> Runs overnight and ends the next morning.</p>
               )}
@@ -192,7 +192,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
                   const on = days.includes(d);
                   return (
                     <button key={d} type="button" aria-pressed={on} onClick={() => toggleDay(d)}
-                      className={`grid h-10 w-10 place-items-center rounded-full text-[10px] font-bold transition sm:h-12 sm:w-12 sm:text-[11px] ${on ? "bg-lavender-500 text-white shadow-soft" : "bg-white text-muted hover:text-ink"}`}>
+                      className={`grid h-10 w-10 place-items-center rounded-full text-[10px] font-bold transition sm:h-12 sm:w-12 sm:text-[11px] ${on ? "bg-lavender-500 text-white shadow-soft" : "bg-surface text-muted hover:text-ink"}`}>
                       {DAY_CAPS[d]}
                     </button>
                   );
@@ -201,7 +201,7 @@ export function RuleEditor({ initial, onClose }: { initial: Partial<Rule>; onClo
               <div className="flex flex-wrap justify-center gap-2">
                 {([["Weekdays", WEEKDAYS], ["Weekends", WEEKEND], ["Every day", EVERY_DAY]] as const).map(([label, set]) => (
                   <button key={label} type="button" onClick={() => setDays([...set])}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${daysSummary(days) === label ? "bg-lavender-100 text-lavender-600" : "bg-white text-muted hover:text-ink"}`}>{label}</button>
+                    className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${daysSummary(days) === label ? "bg-lavender-100 text-lavender-600" : "bg-surface text-muted hover:text-ink"}`}>{label}</button>
                 ))}
               </div>
             </div>

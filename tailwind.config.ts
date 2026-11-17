@@ -1,27 +1,44 @@
 import type { Config } from "tailwindcss";
 
+// Every color points at a CSS variable (see globals.css), which is what makes dark mode possible.
+const v = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
+
 const config: Config = {
+  darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        canvas: "#F5F6FA",
-        ink: "#1F2340",
-        muted: "#6B7094",
-        line: "#ECEEF6",
-        // pastel accents (50 = background wash, 100 = chip, 500 = icon/text, 600 = hover)
-        lavender: { 50: "#F3F1FF", 100: "#E8E4FF", 200: "#D3CCFF", 500: "#7C6CF0", 600: "#6857E0" },
-        mint: { 50: "#EAFAF3", 100: "#D5F5E6", 500: "#2FA67B", 600: "#228A66" },
-        peach: { 50: "#FFF3EC", 100: "#FFE5D6", 500: "#E8703A", 600: "#CC5A28" },
-        skyblue: { 50: "#EEF6FF", 100: "#DCEBFF", 500: "#3B8BEB", 600: "#2A74D0" },
-        blush: { 50: "#FFF0F4", 100: "#FFE0EA", 500: "#D9527A", 600: "#BF3C63" },
-        butter: { 50: "#FFFAE8", 100: "#FFF0BF", 500: "#B58A00", 600: "#946F00" },
-        fog: { 50: "#F4F5F9", 100: "#E7E9F2", 500: "#6B7094", 600: "#555A7A" },
+        "canvas": v("canvas"),
+        "surface": v("surface"),
+        "edge": v("edge"),
+        "ink": v("ink"),
+        "muted": v("muted"),
+        "line": v("line"),
+        "tooltip": v("tooltip"),
+        "tooltip-fg": v("tooltip-fg"),
+        "scroll": v("scroll"),
+        lavender: { 50: v("lavender-50"), 100: v("lavender-100"), 200: v("lavender-200"), 500: v("lavender-500"), 600: v("lavender-600") },
+        mint: { 50: v("mint-50"), 100: v("mint-100"), 500: v("mint-500"), 600: v("mint-600") },
+        peach: { 50: v("peach-50"), 100: v("peach-100"), 500: v("peach-500"), 600: v("peach-600") },
+        skyblue: { 50: v("skyblue-50"), 100: v("skyblue-100"), 500: v("skyblue-500"), 600: v("skyblue-600") },
+        blush: { 50: v("blush-50"), 100: v("blush-100"), 500: v("blush-500"), 600: v("blush-600") },
+        butter: { 50: v("butter-50"), 100: v("butter-100"), 500: v("butter-500"), 600: v("butter-600") },
+        fog: { 50: v("fog-50"), 100: v("fog-100"), 500: v("fog-500"), 600: v("fog-600") },
+        ember: { 50: v("ember-50"), 100: v("ember-100"), 500: v("ember-500"), 600: v("ember-600") },
+        moss: { 50: v("moss-50"), 100: v("moss-100"), 500: v("moss-500"), 600: v("moss-600") },
+        jade: { 50: v("jade-50"), 100: v("jade-100"), 500: v("jade-500"), 600: v("jade-600") },
+        lagoon: { 50: v("lagoon-50"), 100: v("lagoon-100"), 500: v("lagoon-500"), 600: v("lagoon-600") },
+        iris: { 50: v("iris-50"), 100: v("iris-100"), 500: v("iris-500"), 600: v("iris-600") },
+        plum: { 50: v("plum-50"), 100: v("plum-100"), 500: v("plum-500"), 600: v("plum-600") },
+        petal: { 50: v("petal-50"), 100: v("petal-100"), 500: v("petal-500"), 600: v("petal-600") },
+        sand: { 50: v("sand-50"), 100: v("sand-100"), 500: v("sand-500"), 600: v("sand-600") },
+        pine: { 50: v("pine-50"), 100: v("pine-100"), 500: v("pine-500"), 600: v("pine-600") },
       },
       boxShadow: {
-        soft: "0 8px 30px rgba(31, 35, 64, 0.06)",
-        lift: "0 14px 40px rgba(31, 35, 64, 0.10)",
-        inset: "inset 0 1px 0 rgba(255,255,255,0.8)",
+        soft: "0 8px 30px rgb(var(--c-shadow) / var(--shadow-soft-a))",
+        lift: "0 14px 40px rgb(var(--c-shadow) / var(--shadow-lift-a))",
+        inset: "inset 0 1px 0 rgba(255,255,255,0.08)",
       },
       borderRadius: { "4xl": "2rem" },
       keyframes: { "fade-in": { from: { opacity: "0" }, to: { opacity: "1" } } },

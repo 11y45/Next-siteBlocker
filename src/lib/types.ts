@@ -1,5 +1,6 @@
 export type CategoryId =
-  | "social" | "adult" | "gambling" | "shopping" | "news" | "entertainment" | "gaming" | "other";
+  | "social" | "entertainment" | "gaming" | "gambling" | "adult" | "shopping" | "news" | "sports" | "music"
+  | "productivity" | "education" | "ai" | "communication" | "search" | "finance" | "other";
 
 export interface Session {
   phase: "focus" | "break";
@@ -55,6 +56,7 @@ export interface ExtState {
   stats: { days: Record<string, DayStats>; sites: Record<string, number> };
   dashboardUrl: string | null;
   tracking: boolean;
+  sound: { enabled: boolean; volume: number };
   addCounts: Record<string, number>;
   rules: Rule[];
   passes: Record<string, number>;
