@@ -11,7 +11,7 @@ There is no backend and no database. The page talks to the extension through a c
 npm install
 npm run dev        # http://localhost:3000
 ```
-(`http://localhost:3000/*` is already in the extension's manifest.)
+To connect the extension to your local dashboard, temporarily add `http://localhost:3000/*` to `manifest.json` → `content_scripts → matches` and reload the extension. Remove it again before you publish or share the extension.
 
 ## Deploy to Vercel
 1. Push this folder to a GitHub repo and import it in Vercel. Framework preset: Next.js. No environment variables.
@@ -20,6 +20,14 @@ npm run dev        # http://localhost:3000
 3. Reload the extension and the dashboard tab. The sidebar should show **Extension connected**.
 
 Preview deployments have different URLs, so they won't connect unless you add them to `matches`.
+
+## Security
+This page can control the extension (and read your screen-time data), so it must only run your own code.
+- `next.config.mjs` sends a **Content-Security-Policy**: scripts load from this site only (no external hosts). Don't add third-party scripts to any page. If you want analytics, use a privacy-friendly one on the public home page only.
+- Keep the extension's `matches` list limited to your production URL, and protect your Vercel and GitHub accounts with 2-factor authentication: whoever controls the deployment controls the dashboard.
+
+## Tests
+`npm test` (Vitest) covers the passcode generator, domain parsing and the screen-time maths. `npm run typecheck` runs TypeScript. The same table of domain cases is in the extension's tests, so the two copies of `normalizeDomain` stay in agreement.
 
 ## SEO
 Already in place: the `siteBlocker` name and title, meta description, canonical URL, Open Graph and Twitter cards, a generated share image,
@@ -30,7 +38,7 @@ What only you can do: add the site in Google Search Console and submit `sitemap.
 (your GitHub README, a post, a Web Store listing if you publish one). A short descriptive domain helps too.
 
 ## Customize
-- Sites and categories: `src/lib/catalog.ts` (then run `python3 tools/generate-catalog.py` in the extension to keep both in sync) · Name, URL and SEO text: `src/lib/site.ts`
+- Sites and categories: `src/lib/catalog.ts` (then run `npm run catalog` in the extension to keep both in sync; `npm run catalog:check` there fails if they differ) · Name, URL and SEO text: `src/lib/site.ts`
 - Colors and shadows: `tailwind.config.ts`
 - Screen time maths (periods, buckets, recap, formatting): `src/lib/usage.ts` · swipeable pager: `src/components/Carousel.tsx`
 - Theme: every color is a CSS variable in `src/app/globals.css` (light and `.dark`), wired up in `tailwind.config.ts`. The 16 color families are generated; to add one, add its tokens in both blocks and a tone in `src/lib/catalog.ts`.

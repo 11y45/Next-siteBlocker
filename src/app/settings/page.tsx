@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Download, Upload, Lock, Radio, Clock, PlugZap, Hourglass, Trash2, Volume2, Play } from "lucide-react";
+import { Download, Upload, Lock, Radio, Clock, PlugZap, Hourglass, Trash2, Volume2, Play, DatabaseBackup } from "lucide-react";
 import { Connected } from "@/components/Connected";
 import { Card, ConfirmDialog, PageHeader, Stepper, Toggle } from "@/components/ui";
 import { request } from "@/lib/bridge";
@@ -11,6 +11,7 @@ import type { CategoryId, ExtState } from "@/lib/types";
 function Settings({ s }: { s: ExtState }) {
   const { act, toast } = useExt();
   const file = useRef<HTMLInputElement>(null);
+  const backupFile = useRef<HTMLInputElement>(null);
   const [since, setSince] = useState<number | null>(null);
   const [confirmClear, setConfirmClear] = useState(false);
   const [volume, setVolume] = useState(Math.round(s.sound.volume * 100));
@@ -50,6 +51,29 @@ function Settings({ s }: { s: ExtState }) {
     } catch {
       toast("That file isn't a valid blocklist.", "error");
     }
+  };
+
+  // Full backup: blocklist, rules, settings and the whole screen-time history, as one file.
+  const exportBackup = async () => {
+    const r = await request<unknown>("exportBackup", undefined, 20000);
+    if (!r.ok) return toast(r.message || "Couldn't create the backup.", "error");
+    const blob = new Blob([JSON.stringify(r.data)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `siteblocker-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("Backup downloaded", "success");
+  };
+
+  const restoreBackup = async (f: File) => {
+    let backup: unknown;
+    try {
+      backup = JSON.parse(await f.text());
+    } catch {
+      return toast("That file isn't a siteBlocker backup.", "error");
+    }
+    await act("importBackup", { backup }, { success: "Backup restored" });
   };
 
   return (
@@ -120,12 +144,19 @@ function Settings({ s }: { s: ExtState }) {
 
         <Card>
           <h2 className="mb-1 text-lg font-bold">Your data</h2>
-          <p className="mb-5 text-sm text-muted">Everything lives inside your browser&apos;s extension storage. Back it up or move it to another browser. Importing only adds sites.</p>
+          <p className="mb-5 text-sm text-muted">Everything lives inside your browser&apos;s extension storage, so removing the extension deletes it. Keep a backup, or move it to another browser.</p>
           <div className="flex flex-wrap gap-3">
+            <button className="btn-soft" onClick={exportBackup}><DatabaseBackup size={16} /> Full backup</button>
+            <button className="btn-ghost" onClick={() => backupFile.current?.click()}><Upload size={16} /> Restore backup</button>
+            <input ref={backupFile} type="file" accept="application/json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) restoreBackup(f); e.target.value = ""; }} />
+          </div>
+          <p className="mt-3 text-xs text-muted">A backup holds your blocklist, rules, settings and screen-time history, never your passcode. Restoring replaces your blocklist and rules, so it&apos;s unavailable while protection is on.</p>
+          <div className="mt-5 flex flex-wrap gap-3 border-t border-line pt-5">
             <button className="btn-soft" onClick={exportList}><Download size={16} /> Export blocklist</button>
-            <button className="btn-ghost" onClick={() => file.current?.click()}><Upload size={16} /> Import</button>
+            <button className="btn-ghost" onClick={() => file.current?.click()}><Upload size={16} /> Import blocklist</button>
             <input ref={file} type="file" accept="application/json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) importList(f); e.target.value = ""; }} />
           </div>
+          <p className="mt-3 text-xs text-muted">Importing a blocklist only adds sites.</p>
         </Card>
 
         <Card>

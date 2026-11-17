@@ -64,7 +64,6 @@ export interface ExtState {
   passLimit: number;
   passMinutes: number;
   emergencyMinutes: number;
-  emergencyLimit: number;
   emergencyToday: number;
   blockedNow: string[];
   scheduledDomains: string[];
